@@ -87,19 +87,16 @@ fun MainScreen(
                     }
                 )
 
-                // --- INICIO DE LA MODIFICACIÓN ---
                 NavigationDrawerItem(
                     icon = { Icon(Icons.Default.AccountCircle, contentDescription = "Perfil") },
                     label = { Text("Mi Perfil") },
                     // Ahora se marca como seleccionado si la ruta es la del perfil
                     selected = currentRoute == Screen.Profile.route,
                     onClick = {
-                        // Ahora navega a la pantalla de perfil
                         navController.navigate(Screen.Profile.route)
                         scope.launch { drawerState.close() }
                     }
                 )
-                // --- FIN DE LA MODIFICACIÓN ---
 
                 NavigationDrawerItem(
                     icon = { Icon(Icons.AutoMirrored.Filled.ListAlt, contentDescription = "Mis Pedidos") },
