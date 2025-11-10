@@ -1,5 +1,6 @@
 package com.example.huertohogar.ui.theme.screen
 
+import coil.compose.AsyncImage
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
