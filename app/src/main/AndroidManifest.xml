@@ -4,6 +4,14 @@
 
     <!-- Permiso para cargar imágenes de internet y enviar ventas al backend -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <manifest ...>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application ...>
+        // ...
+    </application>
+    </manifest>
 
     <application
         android:allowBackup="true"
