@@ -1,4 +1,4 @@
-package com.example.huertohogar.ui.theme.screen // Asegúrate que este sea el paquete correcto
+package com.example.huertohogar.ui.theme.screen
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -26,7 +26,6 @@ fun ProfileScreen(
         mutableStateOf(uiState.profile?.telefono ?: "")
     }
 
-
     Box(
         modifier = Modifier.fillMaxSize().padding(16.dp),
         contentAlignment = Alignment.Center
@@ -51,9 +50,8 @@ fun ProfileScreen(
                         text = "Mi Perfil",
                         style = MaterialTheme.typography.headlineMedium
                     )
-
                     OutlinedTextField(
-                        value = uiState.profile!!.email,
+                        value = uiState.profile!!.email, // Es seguro usar !! aquí
                         onValueChange = {},
                         label = { Text("Email") },
                         readOnly = true,

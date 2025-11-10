@@ -29,17 +29,19 @@ import com.example.huertohogar.navigation.Screen
 import com.example.huertohogar.ui.theme.HuertoHogarTheme
 import com.example.huertohogar.viewmodels.AuthViewModel
 import com.example.huertohogar.viewmodels.CartViewModel
+import com.example.huertohogar.viewmodels.ProductViewModel
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     private val authViewModel: AuthViewModel by viewModels()
     private val cartViewModel: CartViewModel by viewModels()
+    private val productViewModel: ProductViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             HuertoHogarTheme {
-                MainScreen(authViewModel, cartViewModel)
+                MainScreen(authViewModel, cartViewModel, productViewModel)
             }
         }
     }
@@ -49,7 +51,8 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainScreen(
     authViewModel: AuthViewModel,
-    cartViewModel: CartViewModel
+    cartViewModel: CartViewModel,
+    productViewModel: ProductViewModel
 ) {
     val navController = rememberNavController()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -144,7 +147,8 @@ fun MainScreen(
                 AppNavHost(
                     navController = navController,
                     authViewModel = authViewModel,
-                    cartViewModel = cartViewModel
+                    cartViewModel = cartViewModel,
+                    productViewModel = productViewModel
                 )
             }
         }

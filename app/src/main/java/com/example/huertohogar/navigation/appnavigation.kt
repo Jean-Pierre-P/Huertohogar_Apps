@@ -1,35 +1,36 @@
 package com.example.huertohogar.navigation
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.huertohogar.ui.theme.screen.CartScreen
 import com.example.huertohogar.ui.theme.screen.LoginScreen
 import com.example.huertohogar.ui.theme.screen.ProductListScreen
-import com.example.huertohogar.ui.theme.screen.ProfileScreen
 import com.example.huertohogar.viewmodels.AuthViewModel
 import com.example.huertohogar.viewmodels.CartViewModel
 import com.example.huertohogar.viewmodels.ProductViewModel
-import com.google.android.engage.social.datamodel.Profile
 
 sealed class Screen(val route: String, val title: String, val icon: ImageVector? = null) {
     object Login : Screen("login", "Inicio de Sesión")
-    object ProductList : Screen("productList", "Productos", Icons.Default.Home)
-    object Cart : Screen("cart", "Carro de Compras", Icons.Default.ShoppingCart)
+    object ProductList : Screen("product_list", "Productos", Icons.Default.Home)
+    object Cart : Screen("cart", "Carrito", Icons.Default.ShoppingCart)
+    object Profile : Screen("profile", "Mi Perfil", Icons.Default.AccountCircle)
 
     companion object {
         fun fromRoute(route: String?): Screen {
             return when (route) {
-                Login.route -> Login
                 ProductList.route -> ProductList
                 Cart.route -> Cart
-                null -> ProductList
+                Profile.route -> Profile
+                Login.route -> Login
                 else -> ProductList
             }
         }
@@ -39,19 +40,21 @@ sealed class Screen(val route: String, val title: String, val icon: ImageVector?
 @Composable
 fun AppNavHost(
     navController: NavHostController,
-    authViewModel: AuthViewModel = viewModel(),
-    productViewModel: ProductViewModel = viewModel(),
-    cartViewModel: CartViewModel = viewModel()
+    authViewModel: AuthViewModel,
+    productViewModel: ProductViewModel,
+    cartViewModel: CartViewModel
 ) {
+    val isLoggedIn by authViewModel.isLoggedIn.collectAsStateWithLifecycle()
+    val startDestination = Screen.Login.route
+
     NavHost(
         navController = navController,
-        startDestination = Screen.Login.route
+        startDestination = startDestination
     ) {
         composable(Screen.Login.route) {
             LoginScreen(
                 authViewModel = authViewModel,
                 onLoginSuccess = {
-                    // Navega a la lista de productos y limpia el stack
                     navController.navigate(Screen.ProductList.route) {
                         popUpTo(Screen.Login.route) { inclusive = true }
                     }
@@ -65,13 +68,7 @@ fun AppNavHost(
             )
         }
         composable(Screen.Cart.route) {
-            CartScreen(
-                cartViewModel = cartViewModel
-            )
-        }
-        composable(Screen.Profile.route) {
-            ProfileScreen(
-                profileViewModel = viewModel())
+            CartScreen(cartViewModel = cartViewModel)
         }
     }
 }
